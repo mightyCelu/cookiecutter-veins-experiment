@@ -4,5 +4,10 @@
 		"path": "lib/veins",
 		"repository": "https://github.com/sommer/veins",
 		"version": "veins-5.0"
+	},
+	"plexe": {
+		"path": "lib/plexe",
+		"repository": "https://github.com/michele-segata/plexe-veins",
+		"version": "plexe-3.0a1"
 	}
 }
