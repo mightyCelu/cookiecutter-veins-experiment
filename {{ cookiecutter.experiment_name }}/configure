@@ -1,0 +1,42 @@
+#!/usr/bin/env python2
+
+"""
+Creates Makefile(s) for building this Veins experiment.
+"""
+
+import os
+import sys
+import stat
+import subprocess
+from logging import info, warning
+
+
+if sys.version_info[0] == 3:
+    warning("Warning: running configure with python3 might result in subtle errors.")
+
+
+subprocess.check_call(['./configure'], cwd='{{ cookiecutter.veins.path }}')
+
+
+run_libs = ['{{ cookiecutter.veins.path }}/src/veins']
+run_neds = ['src', '{{ cookiecutter.veins.path }}/src/veins']  # containing directory
+run_imgs = ['{{ cookiecutter.veins.path }}/images']
+
+
+# Start creating files
+if not os.path.isdir('out'):
+    os.mkdir('out')
+
+config_path = os.path.join('out', 'config.py')
+info('Creating project configuration in {}'.format(os.path.abspath(config_path)))
+with open(config_path, 'w') as f:
+    f.write('run_libs = %s\n' % repr(run_libs))
+    f.write('run_neds = %s\n' % repr(run_neds))
+    f.write('run_imgs = %s\n' % repr(run_imgs))
+
+include_flags = ['-I.', '-I../{{ cookiecutter.veins.path }}/src']
+link_flags = ['-L../{{ cookiecutter.veins.path }}/src/', '-lveins$(D)']
+makemake_flags = ['-f', '--deep', '-o', 'experiment', '-O', 'out'] + include_flags + link_flags
+subprocess.check_call(['env', 'opp_makemake'] + makemake_flags, cwd='src')
+
+info('Configure done. You can now run "make".')

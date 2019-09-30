@@ -1,0 +1,8 @@
+{
+	"experiment_name": null,
+	"veins": {
+		"path": "lib/veins",
+		"repository": "https://github.com/sommer/veins",
+		"version": "veins-5a2"
+	}
+}
