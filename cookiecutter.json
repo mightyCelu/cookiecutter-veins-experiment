@@ -4,5 +4,10 @@
 		"path": "lib/veins",
 		"repository": "https://github.com/sommer/veins",
 		"version": "veins-5.0"
+	},
+	"vlc": {
+		"path": "lib/veins-vlc",
+		"repository": "https://github.com/veins/veins_vlc",
+		"version": "c730f3b615fe98d5991cb2928f836e1078a968dc"
 	}
 }

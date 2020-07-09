@@ -16,11 +16,12 @@ if sys.version_info[0] == 3:
 
 
 subprocess.check_call(['./configure'], cwd='{{ cookiecutter.veins.path }}')
+subprocess.check_call(['./configure', '--with-veins={}'.format(os.path.relpath('{{ cookiecutter.veins.path }}', '{{ cookiecutter.vlc.path }}'))], cwd='{{ cookiecutter.vlc.path }}')
 
 
-run_libs = ['{{ cookiecutter.veins.path }}/src/veins']
-run_neds = ['src', '{{ cookiecutter.veins.path }}/src/veins']  # containing directory
-run_imgs = ['{{ cookiecutter.veins.path }}/images']
+run_libs = ['{{ cookiecutter.veins.path }}/src/veins', '{{ cookiecutter.vlc.path }}/src/veins-vlc']
+run_neds = ['src', '{{ cookiecutter.veins.path }}/src/veins', '{{ cookiecutter.veins.path }}/src/veins-vlc']
+run_imgs = ['{{ cookiecutter.veins.path }}/images', '{{ cookiecutter.vlc.path }}/images']
 
 
 # Start creating files
@@ -34,8 +35,8 @@ with open(config_path, 'w') as f:
     f.write('run_neds = %s\n' % repr(run_neds))
     f.write('run_imgs = %s\n' % repr(run_imgs))
 
-include_flags = ['-I.', '-I../{{ cookiecutter.veins.path }}/src']
-link_flags = ['-L../{{ cookiecutter.veins.path }}/src/', '-lveins$(D)']
+include_flags = ['-I.', '-I../{{ cookiecutter.veins.path }}/src', '-I../{{ cookiecutter.vlc.path }}/src']
+link_flags = ['-L../{{ cookiecutter.veins.path }}/src/', '-lveins$(D)', '-L../{{ cookiecutter.vlc.path }}/src/', '-lveins-vlc$(D)']
 makemake_flags = ['-f', '--deep', '-o', 'experiment', '-O', 'out'] + include_flags + link_flags
 subprocess.check_call(['env', 'opp_makemake'] + makemake_flags, cwd='src')
 

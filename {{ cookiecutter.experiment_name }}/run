@@ -1,7 +1,7 @@
 #!/usr/bin/env python2
 
 """
-Runs Veins simulation in current directory
+Runs Veins-VLC simulation in current directory
 """
 
 import os
@@ -11,7 +11,7 @@ def relpath(s):
     root = os.path.dirname(os.path.realpath(__file__))
     return os.path.relpath(os.path.join(root, s), '.')
 
-parser = argparse.ArgumentParser('Run a Veins simulation')
+parser = argparse.ArgumentParser('Run a Veins-VLC simulation')
 parser.add_argument('-d', '--debug', action='store_true', help='Run using opp_run_dbg (instead of opp_run)')
 parser.add_argument('-t', '--tool', metavar='TOOL', dest='tool', choices=['lldb', 'gdb', 'memcheck'], help='Wrap opp_run execution in TOOL (lldb, gdb or memcheck)')
 parser.add_argument('-v', '--verbose', action='store_true', help='Print command line before executing')
@@ -21,9 +21,9 @@ args, omnet_args = parser.parse_known_args()
 if (len(omnet_args) > 0) and omnet_args[0] == '--':
     omnet_args = omnet_args[1:]
 
-run_libs = [relpath(s) for s in ['{{ cookiecutter.veins.path }}/src/veins']]
-run_neds = [relpath(s) for s in ['src', '{{ cookiecutter.veins.path }}/src/veins']] + ['.']
-run_imgs = [relpath(s) for s in ['{{ cookiecutter.veins.path }}/images']]
+run_libs = [relpath(s) for s in ['{{ cookiecutter.veins.path }}/src/veins', '{{ cookiecutter.vlc.path }}/src/veins-vlc']]
+run_neds = [relpath(s) for s in ['src', '{{ cookiecutter.veins.path }}/src/veins', '{{ cookiecutter.vlc.path }}/src/veins-vlc']] + ['.']
+run_imgs = [relpath(s) for s in ['{{ cookiecutter.veins.path }}/images', '{{ cookiecutter.vlc.path }}/images']]
 
 run = '../src/experiment' if not args.debug else '../src/experiment_dbg'
 
